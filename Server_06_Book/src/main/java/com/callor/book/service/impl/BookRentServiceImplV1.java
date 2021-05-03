@@ -18,10 +18,6 @@ public class BookRentServiceImplV1 implements BookRentService {
 	protected List<BookRentDTO> select(PrepareStatement pStr){
 		List<BookRentDTO> brList = new ArrayList<>();
 		
-		dk whweoTek
-		
-		또 미친놈 이야기를 써야 하나 시간 안간다 망했다 하나도 못따라잡았어
-		아 아 아 7교시에 또 존나 쓸텐데
 		
 		return brList;
 	}
@@ -99,8 +95,6 @@ public class BookRentServiceImplV1 implements BookRentService {
 		return 0;
 	}
 
-
-	음 집가서망했구,,,, 
 
 	
 }
