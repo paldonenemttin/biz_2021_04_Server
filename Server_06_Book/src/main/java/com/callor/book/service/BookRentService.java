@@ -11,16 +11,16 @@ public interface BookRentService {
 	public List<BookRentDTO> selectAll();
 	
 	// pk 값으로 조회하기
-	public List<BookRentDTO> findById(Long seq);
+	public BookRentDTO findById(Long seq);
 	
 	// 도서코드로 대여목록 조회
 	public List<BookRentDTO> findByISBN(String isbn);
 	
 	// 도서명을 대여목록 조회
-	public List<BookRentDTO> findByBN(String name);
+	public List<BookRentDTO> findByBookName(String name);
 	
 	// 회원코드로 대여목록 조회
-	public List<BookRentDTO> findByBC(String bcode);
+	public List<BookRentDTO> findByBuyerCode(String bcode);
 	
 	// 회원명으로 대여목록 조회
 	public List<BookRentDTO> findByBuyerName(String bname);
