@@ -37,6 +37,15 @@ public class MyFoodDTO {
 	private long mf_seq; // number
 	private String mf_date; // varchar2(10 byte)
 	private String mf_fcode; // char(7 byte)
-	private String mf_amt; // number(10,2)
+	private String mf_fname;
+	private Float mf_amt; // number(10,2)
+	private Float fd_once;
+	private Float fd_capa;
+	private Float fd_cal;
+	private Float fd_protein;
+	private Float fd_fat;
+	private Float fd_carbo;
+	private Float fd_sugar;
+
 
 }

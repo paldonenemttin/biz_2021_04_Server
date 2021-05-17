@@ -10,7 +10,7 @@ public interface FoodService {
 	
 	// data 조회
 	public List<FoodDTO> selectAll(); // 전체 조회
-	public FoodDTO findById(); // 코드 조회
+	public FoodDTO findById(String fd_code); // 코드 조회
 	public List<FoodDTO> findByFname(String f_name); // 이름 조회
 	
 	
