@@ -1,4 +1,4 @@
-package com.callor.guest.controller;
+package com.callor.guest.config;
 
 public class DBInfo {
 

@@ -21,7 +21,7 @@ public class MySQLConnection {
 			if(dbConn == null) {
 				dbConn = DriverManager.getConnection(url, username, password);
 			}
-			System.out.println("mysql 鞝戩啀 靹标车");
+			System.out.println("mysql 立加 己傍");
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

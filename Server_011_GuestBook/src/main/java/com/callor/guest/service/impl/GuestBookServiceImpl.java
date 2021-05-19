@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.callor.guest.config.DBInfo;
 import com.callor.guest.config.MySQLConnection;
-import com.callor.guest.controller.DBInfo;
 import com.callor.guest.model.GuestBookVO;
 import com.callor.guest.service.GuestBookService;
 
