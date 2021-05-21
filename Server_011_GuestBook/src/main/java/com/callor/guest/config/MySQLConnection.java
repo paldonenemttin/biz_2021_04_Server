@@ -12,7 +12,7 @@ public class MySQLConnection {
 	static {
 		
 		String jdbcDriver = "com.mysql.cj.jdbc.Driver";
-		String url = "jdbc:mysql://192.168.5.41:3306/guestbook";
+		String url = "jdbc:mysql://localhost:3306/guestbook";
 		String username = "gbUser";
 		String password = "1234";
 		
@@ -21,7 +21,7 @@ public class MySQLConnection {
 			if(dbConn == null) {
 				dbConn = DriverManager.getConnection(url, username, password);
 			}
-			System.out.println("mysql 立加 己傍");
+			System.out.println("mysql 鞝戩啀 靹标车");
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

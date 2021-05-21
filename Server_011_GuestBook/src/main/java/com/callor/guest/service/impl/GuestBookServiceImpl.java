@@ -15,19 +15,18 @@ import com.callor.guest.service.GuestBookService;
 public class GuestBookServiceImpl implements GuestBookService {
 
 	protected Connection dbConn;
-	
-	
+
 	public GuestBookServiceImpl() {
 		// TODO Auto-generated constructor stub
-		
+
 		dbConn = MySQLConnection.getDBConnection();
 	}
-	
-	protected List<GuestBookVO> select(PreparedStatement pStr) throws SQLException{
+
+	protected List<GuestBookVO> select(PreparedStatement pStr) throws SQLException {
 		List<GuestBookVO> gbList = new ArrayList<GuestBookVO>();
-		
+
 		ResultSet rSet = pStr.executeQuery();
-		while(rSet.next()) {
+		while (rSet.next()) {
 			GuestBookVO gbVO = new GuestBookVO();
 			gbVO.setGb_seq(rSet.getLong(DBInfo.gb_seq));
 			gbVO.setGb_date(rSet.getString(DBInfo.gb_date));
@@ -41,20 +40,21 @@ public class GuestBookServiceImpl implements GuestBookService {
 		System.out.println(gbList.toString());
 		return gbList;
 	}
+
 	@Override
 	public List<GuestBookVO> selectAll() {
 		// TODO Auto-generated method stub
-		
+
 		String sql = " SELECT * FROM tbl_guest_book ";
-		sql += " ORDER BY gb_date DESC, db_time DESC ";
-		
+		sql += " ORDER BY gb_date DESC, gb_time DESC ";
+
 		PreparedStatement pStr = null;
-		
+
 		try {
 			pStr = dbConn.prepareStatement(sql);
 			List<GuestBookVO> gbList = this.select(pStr);
 			pStr.close();
-			
+
 			System.out.println(gbList.toString());
 			return gbList;
 		} catch (SQLException e) {
@@ -66,7 +66,27 @@ public class GuestBookServiceImpl implements GuestBookService {
 
 	@Override
 	public GuestBookVO findById(Long seq) {
-		// TODO Auto-generated method stub
+		// TODO seq로 조회하기
+		String sql = " SELECT * FROM tbl_guest_book ";
+		sql += " WHERE gb_seq = ? ";
+
+		PreparedStatement pStr = null;
+
+		try {
+			pStr = dbConn.prepareStatement(sql);
+			pStr.setLong(1, seq);
+
+			List<GuestBookVO> gbList = this.select(pStr);
+
+			pStr.close();
+			if (gbList != null && gbList.size() > 0) {
+				System.out.println(gbList.toString());
+				return gbList.get(0);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 
@@ -91,18 +111,88 @@ public class GuestBookServiceImpl implements GuestBookService {
 	@Override
 	public Integer insert(GuestBookVO gbVO) {
 		// TODO Auto-generated method stub
+		String sql = " INSERT INTO tbl_guest_book ";
+		sql += " (";
+		sql += " gb_date, ";
+		sql += " gb_time, ";
+		sql += " gb_writer, ";
+		sql += " gb_email, ";
+		sql += " gb_password, ";
+		sql += " gb_content ) ";
+		sql += " VALUES( ?,?,?,?,?,? )";
+
+		PreparedStatement pStr = null;
+		try {
+
+			pStr = dbConn.prepareStatement(sql);
+			pStr.setString(1, gbVO.getGb_date());
+			pStr.setString(2, gbVO.getGb_time());
+			pStr.setString(3, gbVO.getGb_writer());
+			pStr.setString(4, gbVO.getGb_email());
+			pStr.setString(5, gbVO.getGb_password());
+			pStr.setString(6, gbVO.getGb_content());
+			return pStr.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
+
 	}
 
 	@Override
 	public Integer update(GuestBookVO gbVO) {
 		// TODO Auto-generated method stub
+		String sql = " UPDATE tbl_guest_book SET ";
+		sql += " gb_date = ?, ";
+		sql += " gb_time = ?, ";
+		sql += " gb_writer = ?, ";
+		sql += " gb_email = ?, ";
+		sql += " gb_password = ?, ";
+		sql += " gb_content = ? ";
+
+		sql += " WHERE gb_seq = ? ";
+
+		PreparedStatement pStr = null;
+		try {
+
+			pStr = dbConn.prepareStatement(sql);
+			pStr.setString(1, gbVO.getGb_date());
+			pStr.setString(2, gbVO.getGb_time());
+			pStr.setString(3, gbVO.getGb_writer());
+			pStr.setString(4, gbVO.getGb_email());
+			pStr.setString(5, gbVO.getGb_password());
+			pStr.setString(6, gbVO.getGb_content());
+
+			pStr.setLong(7, gbVO.getGb_seq());
+			return pStr.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 
 	@Override
 	public Integer delete(Long seq) {
 		// TODO Auto-generated method stub
+		String sql = " DELETE FROM tbl_guest_book ";
+		sql += " WHERE gb_seq = ? ";
+
+		PreparedStatement pStr = null;
+		try {
+
+			pStr = dbConn.prepareStatement(sql);
+			pStr.setLong(1, seq);
+			return pStr.executeUpdate();
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 

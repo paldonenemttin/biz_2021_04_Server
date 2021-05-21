@@ -1,14 +1,12 @@
 @charset "UTF-8";
 
-*{
-	
-	margin:0;
-	padding:0;
+* {
+	margin: 0;
+	padding: 0;
 	box-sizing: border-box;
-	
-	
 }
-h1{
+
+h1 {
 	background-color: green;
 	/*
 	html,css에서의 단위구조
@@ -19,28 +17,28 @@ h1{
 	text 높이를 1rem(em)으로 설정하고,
 	비율에 맞춰서 상대적으로 크기를 지정하기
 	*/
-	padding:2rem;
+	padding: 2rem;
 }
 
-nav{
+nav {
 	background-color: aqua;
 }
 
-ul{
-	margin:0px;
+ul {
+	margin: 0px;
 	background-color: blue;
 }
-li{
-	display : inline-block;
-	list-style : none;
-	margin : 0px;
-	padding : 10px;
+
+li {
+	display: inline-block;
+	list-style: none;
+	margin: 0px;
+	padding: 10px;
 	color: white;
-	
-	
 }
 
-li:hover{
+li:hover {
 	background-color: gray;
-	color:white;
+	color: white;
+	cursor: pointer;
 }
