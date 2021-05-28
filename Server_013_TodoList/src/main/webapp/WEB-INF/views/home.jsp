@@ -6,27 +6,30 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>My TODO List</title>
-<style type="text/css">
-/* style 지정을 위해 전체 초기화*/
+
+<style>
+/* style 지정을 위하여 전체 초기화 */
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
 
-h1, form.doit {
+h1, form.doit, table.td_list {
 	width: 50%;
 	margin: 10px auto;
 	border-radius: 5px;
 }
 
 h1 {
-	background-color: rgba(0, 225, 0, 0.3);
+	background-color: rgba(0, 255, 0, 0.3);
 	color: white;
 	padding: 1rem;
 	text-align: center;
-	text-shadow: 1px 1px 1px #ddd;
+	/* text에 그림자 지정 */
+	text-shadow: 1px 1px 1px #000;
 }
 
 form.doit {
@@ -37,8 +40,9 @@ form.doit {
 
 form.doit input {
 	width: 90%;
-	/*
-		
+	/* 
+		input box를 클릭하면 
+		진한 box가 생기는 것을 방지 
 		*/
 	outline: 0;
 	border: 1px solid #eee;
@@ -49,9 +53,111 @@ form.doit input {
 }
 
 form.doit input:hover {
-	background-color: #eee;	
+	background-color: #eee;
+}
+
+table.td_list {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+table.td_list td {
+	padding: 7px;
+	border-top: 1px solid green;
+	cursor: pointer;
+	
+}
+
+/* table의 마지막 라인(tr)에 포함된 td 에만 */
+table.td_list tr:last-child  td {
+	border-bottom: 3px solid green;
+}
+
+table.td_list td.count {
+	font-size: 20px;
+	text-align: right;
+	width: 5%;
+	color: blue;
+}
+
+table.td_list td.sdate, table.td_list td.edate {
+	font-size: 10px;
+	text-align: center;
+	width: 20%;
+}
+
+table.td_list td.doit {
+	font-size: 30px;
+	text-align: left;
+	/* 
+		두줄 이상의 본문을 1줄로 줄이고
+		말줄임표 표현 
+		table이 아닌 box 형 tag의 경우
+		max-width 대신 width 값을 설정해야한다
+		아래 4가지 속성을 동시에 적용해만 된다
+		*/
+	max-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	
+	/*
+	실험적 css 적용
+	user-select:none은 text를 dblclick했을때
+	선택박스가 나타나지 않도록 허용
+	그냥 user-select : 기능이 적용되는 브라우저용
+	-webkit-: 크롬, 구글, 사파리
+	-moz- 파이어폭스 계열
+	-ms- 익스플로러
+	-o-: 오페라
+	*/
+	
+	user-select:none;
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	-o-user-select:none;
+}
+
+.through-text {
+	text-decoration: 1px line-through red;
+}
+/* 화면 폭이 480px 이하(max)일때 적용할 style*/
+@media screen and (max-width:480px) {
+	h1, form.doit, table.td_list {
+		width: 95%;
+		margin: 0 auto;
+	}
+}
+/*화면 폭이 800px 이하(max)일때 적용할 style*/
+@media screen and (max-width:800px) {
+	h1, form.doit, table.td_list {
+		width: 70%;
+		margin: 0 auto;
+	}
 }
 </style>
+<script>
+	document.addEventListener("DOMContentLoaded",()=>{
+		
+		document.querySelector("table.td_list").addEventListener("dblclick",(ev)=>{
+			ev.preventDefault()
+			let tagName = ev.target.tagName
+			if(tagName == "TD"){
+				// 클릭된 TD tag를 감싸고 있는 TR객체가 누구냐
+				let tr = ev.target.closest("TR").dataset
+				// let seq = ev.target.slosest("TR").dataset.seq
+				let td_seq = tr.seq
+				let td_edate = tr.edate
+				
+				let confirm_msg = td_edate ? "완료를 취소합니다" : "TODO 완료 여부 확인";
+				if(confirm(confirm_msg)){
+					location.href = "${rootPath}/expire?td_seq=" + td_seq
+				}
+			}
+		})
+	})
+</script>
 </head>
 <body>
 	<h1>To Do List</h1>
@@ -77,10 +183,19 @@ form, a tag등에 URL, URI를 지정할때
  ${rootPath} 시작하는 주소로 사용한다
  rootPath = http://localhost:8080/insert
  --%>
-	<form class="doit" method="post" action="${rootPath}/insert">
+	<form class="doit" method="POST" action="${rootPath}/insert">
 		<input name="td_doit" placeholder="할일을 입력한 후 Enter">
 	</form>
-
-
+	<div class="msg">${ERROR}${COMP}</div>
+	<table class="td_list">
+		<c:forEach items="${TDLIST}" var="TD" varStatus="ST">
+			<tr data-seq="${TD.td_seq}" data-edate="${TD.td_edate}">
+				<td class="count">${ST.count}</td>
+				<td class="sdate">${TD.td_sdate}<br />${TD.td_stime}</td>
+				<td class="doit ${empty TD.td_edate ? '' : 'through-text'}">${TD.td_doit}</td>
+				<td class="edate">${TD.td_edate}<br />${TD.td_etime}</td>
+			</tr>
+		</c:forEach>
+	</table>
 </body>
 </html>
